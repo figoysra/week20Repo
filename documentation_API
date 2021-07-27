@@ -1,0 +1,8 @@
+.get
+localhost:2000/endpoint/
+.put
+localhost:2000/endpoint/:id
+.post
+localhost:2000/endpoint/
+.delete
+localhost:2000/endpoint/id

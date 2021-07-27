@@ -15,7 +15,7 @@ const usersmodel = {
     },
     getList : (search,field,typeSort,limit,offset) =>{
         return new Promise ((resolve, reject)=>{
-            db.query(`select * from tbl_users where firstname LIKE '%${search}%' ORDER BY ${field} ${typeSort} LIMIT ${limit} OFFSET ${offset}`,(err,result)=>{
+            db.query(`select * from tbl_users where dis_name LIKE '%${search}%' ORDER BY ${field} ${typeSort} LIMIT ${limit} OFFSET ${offset}`,(err,result)=>{
                 if(err){
                     reject(err)
                 }else{
