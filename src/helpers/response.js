@@ -8,12 +8,13 @@ const response = {
         }
         res.json(response)
     },
-    failed : (res,code)=>{
+    failed : (res,code,err)=>{
         if(code === 500){
             const response ={
                 success : false,
                 data : null,
                 code : code,
+                error : err,
                 message : 'There was an error on the server and the request could not be completed'
             }
             res.json(response)
@@ -23,6 +24,7 @@ const response = {
                 success : false,
                 data : null,
                 code : code,
+                error: err,
                 message : 'The requested resource was not found'
             }
             res.json(response)
@@ -31,6 +33,7 @@ const response = {
                 success : false,
                 data : null,
                 code : code,
+                error: err,
                 message : 'Unauthorized'
             }
             res.json(response)

@@ -15,7 +15,8 @@ const productsmodel = {
     },
     getList : (search,field,typeSort,limit,offset) =>{
         return new Promise ((resolve, reject)=>{
-            db.query(`select * from tbl_products left join tbl_category on tbl_products.category_id=tbl_category.id
+            db.query(`select tbl_products.id as id, tbl_products.product_name as product, tbl_products.description, tbl_products.category_id,
+            tbl_category.category from tbl_products left join tbl_category on tbl_products.category_id=tbl_category.id
             where tbl_products.product_name LIKE '%${search}%' ORDER BY ${field} ${typeSort} LIMIT ${limit} OFFSET ${offset} `,(err,result)=>{
                 if(err){
                     reject(err)
