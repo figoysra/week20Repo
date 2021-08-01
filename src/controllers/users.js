@@ -111,8 +111,15 @@ const users = {
           res.json('email salah');
         } else {
           const hash = result[0].password;
-          const result = bcrypt.compare(body.password, hash);
-          console.log(result);
+          bcrypt.compare(body.password, hash, (error, checkpass) => {
+            if (error) {
+              res.json(error);
+            } else if (checkpass === true) {
+              success(res, 'token = 123', 'Login successfull');
+            } else {
+              res.json('password salah');
+            }
+          });
         }
       }).catch((error) => {
         failed(res, 404, error);

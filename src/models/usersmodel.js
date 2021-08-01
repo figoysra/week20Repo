@@ -42,7 +42,7 @@ const usersmodel = {
     const {
       email, password, photo, dis_name, firstname, lastname, date, gender, address, phone,
     } = data;
-    db.query(`INSERT INTO tbl_users (email,password,photo,dis_name,firstname,lastname,date,gender,address,phone) value ('${email}',${password},'${photo}','${dis_name}', '${firstname}', '${lastname}','${date}','${gender}','${address}',${phone})`, (err, result) => {
+    db.query(`INSERT INTO tbl_users (email,password,photo,dis_name,firstname,lastname,date,gender,address,phone) value ('${email}', '${password}','${photo}','${dis_name}', '${firstname}', '${lastname}','${date}','${gender}','${address}',${phone})`, (err, result) => {
       if (err) {
         reject(err);
       } else {

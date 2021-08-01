@@ -10,6 +10,6 @@ app.use(usersrouter);
 app.use(productsrouter);
 app.use(categoryrouter);
 
-app.listen(8080, () => {
-  console.log('service running on port 8080');
+app.listen(2000, () => {
+  console.log('service running on port 2000');
 });
