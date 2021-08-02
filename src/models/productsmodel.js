@@ -11,9 +11,9 @@ const productsmodel = {
     });
   }),
   getList: (search, field, typeSort, limit, offset) => new Promise((resolve, reject) => {
-    db.query(`select tbl_products.id as id, tbl_products.product_name as product, tbl_products.description, tbl_products.category_id,
-            tbl_category.category from tbl_products left join tbl_category on tbl_products.category_id=tbl_category.id
-            where tbl_products.product_name LIKE '%${search}%' ORDER BY ${field} ${typeSort} LIMIT ${limit} OFFSET ${offset} `, (err, result) => {
+    db.query(`select pro.id as id, pro.productName,pro.picture, pro.sizepriceID, size.code, size.size, size.price, pro.description, pro.categoryID, cat.category 
+            from tbl_products as pro left join sizeprice as size on pro.sizepriceID=size.id left join tbl_category as cat on pro.categoryID=cat.id
+            where pro.productName LIKE '%${search}%' ORDER BY ${field} ${typeSort} LIMIT ${limit} OFFSET ${offset} `, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -22,7 +22,8 @@ const productsmodel = {
     });
   }),
   getdetails: (id) => new Promise((resolve, reject) => {
-    db.query(`select * from tbl_products left join tbl_category on tbl_products.category_id=tbl_category.id where tbl_products.id='${id}'`, (err, result) => {
+    db.query(`select pro.id as id, pro.productName,pro.picture, pro.sizepriceID, size.code, size.size, size.price, pro.description, pro.categoryID, cat.category 
+            from tbl_products as pro left join sizeprice as size on pro.sizepriceID=size.id left join tbl_category as cat on pro.categoryID=cat.id where pro.id='${id}'`, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -32,9 +33,9 @@ const productsmodel = {
   }),
   insert: (body) => new Promise((resolve, reject) => {
     const {
-      product_name, picture, description, category_id,
+      productName, picture, sizepriceID, description, categoryID,
     } = body;
-    db.query(`INSERT INTO tbl_products (product_name,picture,description,category_id) value ('${product_name}','${picture}','${description}',${category_id})`, (err, result) => {
+    db.query(`INSERT INTO tbl_products (productName,picture,sizepriceID,description,categoryID) value ('${productName}','${picture}','${sizepriceID}','${description}',${categoryID})`, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -44,9 +45,9 @@ const productsmodel = {
   }),
   update: (id, body) => new Promise((resolve, reject) => {
     const {
-      product_name, picture, description, category_id,
+      productName, picture, sizepriceID, description, categoryID,
     } = body;
-    db.query(`UPDATE tbl_products SET product_name ='${product_name}',picture='${picture}',description='${description}', category_id= ${category_id} where id = ${id}`, (err, result) => {
+    db.query(`UPDATE tbl_products SET productName ='${productName}',picture='${picture}',sizepriceID='${sizepriceID}',description='${description}', categoryID= ${categoryID} where id = ${id}`, (err, result) => {
       if (err) {
         reject(err);
       } else {

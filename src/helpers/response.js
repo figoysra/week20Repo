@@ -1,41 +1,41 @@
 const response = {
-  success: (res, result, message) => {
-    const response = {
+  success: (res, result, msg) => {
+    const success = {
       success: true,
       data: result,
       code: 200,
-      message,
+      message: msg,
     };
-    res.json(response);
+    res.json(success);
   },
   failed: (res, code, err) => {
     if (code === 500) {
-      const response = {
+      const codefail = {
         success: false,
         data: null,
-        code,
+        errorCode: 500,
         error: err,
         message: 'There was an error on the server and the request could not be completed',
       };
-      res.json(response);
-    } else if (code === 404) {
-      const response = {
-        success: false,
-        data: null,
-        code,
-        error: err,
-        message: 'The requested resource was not found',
-      };
-      res.json(response);
+      res.json(codefail);
     } else if (code === 401) {
-      const response = {
+      const codefail = {
         success: false,
         data: null,
-        code,
+        errorCode: 404,
+        error: err,
+        message: 'Your Request is not found',
+      };
+      res.json(codefail);
+    } else if (code === 401) {
+      const codefail = {
+        success: false,
+        data: null,
+        errorCode: 401,
         error: err,
         message: 'Unauthorized',
       };
-      res.json(response);
+      res.json(codefail);
     }
   },
 };

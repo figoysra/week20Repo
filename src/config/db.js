@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
 const { DB_USERNAME, DB_PASSWORD } = require('../helpers/env');
-const { success, failed } = require('../helpers/response');
 
 const connection = mysql.createConnection({
   host: 'localhost',

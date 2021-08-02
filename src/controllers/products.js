@@ -6,7 +6,7 @@ const product = {
     try {
       const { query } = req;
       const search = query.search === undefined ? '' : query.search;
-      const field = query.field === undefined ? 'tbl_products.id' : query.field;
+      const field = query.field === undefined ? 'pro.id' : query.field;
       const typeSort = query.sort === undefined ? 'ASC' : query.sort;
       const limit = query.limit === undefined ? 10 : query.limit;
       const offset = query.page === undefined || query.page === 1 ? 0 : (query.page - 1) * limit;
@@ -17,10 +17,11 @@ const product = {
           totalPage: Math.ceil(alldata.length / limit),
           page: req.query.page,
         };
+        // console.log(response);
         success(res, response, 'get all users success');
       }).catch((err) => {
         failed(res, 404, err);
-        // console.log(err)
+        // console.log(err);
       });
     } catch (error) {
       failed(res, 401, error);

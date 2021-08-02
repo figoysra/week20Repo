@@ -21,7 +21,7 @@ const users = {
         success(res, response, 'get all users success');
       }).catch((err) => {
         failed(res, 404, err);
-        // console.log(err)
+        // console.log(err);
       });
     } catch (error) {
       failed(res, 401, error);
@@ -48,7 +48,7 @@ const users = {
       const { body } = req;
       bcrypt.hash(body.password, 10, (err, hash) => {
         if (err) {
-          console.log('tes');
+          failed(res, 401, err);
         } else {
           const data = {
             email: body.email,
@@ -94,10 +94,8 @@ const users = {
       const { id } = req.params;
       usersmodel.destroy(id).then((result) => {
         success(res, result, 'delete data success');
-        // res.json(result)
       }).catch((error) => {
         failed(res, 404, error);
-        // console.log(error)
       });
     } catch (error) {
       failed(res, 401, error);
@@ -115,7 +113,11 @@ const users = {
             if (error) {
               res.json(error);
             } else if (checkpass === true) {
-              success(res, 'token = 123', 'Login successfull');
+              const message = {
+                message: 'Login successfull',
+                token: 123,
+              };
+              res.json(message);
             } else {
               res.json('password salah');
             }
