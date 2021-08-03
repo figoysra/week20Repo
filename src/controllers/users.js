@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const usersmodel = require('../models/usersmodel');
 const { success, failed } = require('../helpers/response');
+const tokencode = require('../config/token');
 
 const users = {
   getList: (req, res) => {
@@ -53,7 +54,8 @@ const users = {
           const data = {
             email: body.email,
             password: hash,
-            dis_name: body.dis_name,
+            photo: body.photo,
+            displayname: body.displayname,
             firstname: body.firstname,
             lastname: body.lastname,
             date: body.date,
@@ -77,12 +79,30 @@ const users = {
     try {
       const { id } = req.params;
       const { body } = req;
-      usersmodel.update(id, body).then((result) => {
-        success(res, result, 'update data success');
-        // res.json(result)
-      }).catch((err) => {
-        failed(res, 404, err);
-        // resolve(err)
+      bcrypt.hash(body.password, 10, (err, hash) => {
+        if (err) {
+          failed(res, 401, err);
+        } else {
+          const data = {
+            email: body.email,
+            password: hash,
+            photo: body.photo,
+            displayname: body.displayname,
+            firstname: body.firstname,
+            lastname: body.lastname,
+            date: body.date,
+            gender: body.gender,
+            address: body.address,
+            phone: body.phone,
+          };
+          usersmodel.update(id, data).then((result) => {
+            // console.log(result)
+            success(res, result, 'insert data success');
+          }).catch((error) => {
+            // console.log(error)
+            failed(res, 404, error);
+          });
+        }
       });
     } catch (error) {
       failed(res, 401, error);
@@ -115,7 +135,7 @@ const users = {
             } else if (checkpass === true) {
               const message = {
                 message: 'Login successfull',
-                token: 123,
+                token: tokencode,
               };
               res.json(message);
             } else {

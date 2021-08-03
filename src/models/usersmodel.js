@@ -55,7 +55,7 @@ const usersmodel = {
     const {
       email, password, photo, displayname, firstname, lastname, date, gender, address, phone,
     } = data;
-    db.query(`UPDATE tbl_users SET email = '${email}',password = ${password}, photo='${photo}',displayname='${displayname}',firstname= '${firstname}',lastname= '${lastname}',date='${date}',gender='${gender}',address='${address}',phone=${phone} WHERE id='${id}'`, (err, result) => {
+    db.query(`UPDATE tbl_users SET email = '${email}',password = '${password}', photo='${photo}',displayname='${displayname}',firstname= '${firstname}',lastname= '${lastname}',date='${date}',gender='${gender}',address='${address}',phone=${phone} WHERE id='${id}'`, (err, result) => {
       if (err) {
         reject(err);
       } else {
