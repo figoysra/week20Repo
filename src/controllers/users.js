@@ -34,7 +34,6 @@ const users = {
       const { id } = req.params;
       usersmodel.getdetails(id).then((result) => {
         success(res, result, 'get details data success');
-        // res.json(result)
       }).catch((err) => {
         failed(res, 404, err);
         // console.log(err)
@@ -133,13 +132,9 @@ const users = {
             if (error) {
               res.json(error);
             } else if (checkpass === true) {
-              const message = {
-                message: 'Login successfull',
-                token: tokencode,
-              };
-              res.json(message);
+              success(res, result, tokencode);
             } else {
-              res.json('password salah');
+              failed(res, 404, 'Wrong Password');
             }
           });
         }

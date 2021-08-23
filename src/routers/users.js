@@ -10,7 +10,7 @@ const usersrouter = express.Router();
 usersrouter
   .get('/users', midAuth, getList)
   .get('/users/:id', midAuth, getdetails)
-  .post('/users', midAuth, insert)
+  .post('/users', insert)
   .post('/login', login)
   .put('/users/:id', midAuth, update)
   .delete('/users/:id', midAuth, destroy);

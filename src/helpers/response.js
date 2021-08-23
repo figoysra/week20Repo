@@ -18,7 +18,7 @@ const response = {
         message: 'There was an error on the server and the request could not be completed',
       };
       res.json(codefail);
-    } else if (code === 401) {
+    } else if (code === 404) {
       const codefail = {
         success: false,
         data: null,
