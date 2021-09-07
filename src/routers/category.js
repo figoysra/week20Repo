@@ -3,15 +3,16 @@ const {
   getList, getdetails, insert, update, destroy,
 } = require('../controllers/category');
 
-const midAuth = require('../midAuth/authentication');
+const authentication = require("../midAuth/authentication");
+const authorization = require("../midAuth/authorization");
 
 const categoryrouter = express.Router();
 
 categoryrouter
-  .get('/cat', midAuth, getList)
-  .get('/cat/:id', midAuth, getdetails)
-  .post('/cat', midAuth, insert)
-  .put('/cat/:id', midAuth, update)
-  .delete('/cat/:id', midAuth, destroy);
+  .get('/cat', authentication, getList)
+  .get('/cat/:id', authentication, getdetails)
+  .post('/cat', authentication,authorization, insert)
+  .put('/cat/:id', authentication,authorization, update)
+  .delete('/cat/:id', authentication,authorization, destroy);
 
 module.exports = categoryrouter;

@@ -2,17 +2,21 @@ const express = require('express');
 const {
   getList, getdetails, insert, login, update, destroy,
 } = require('../controllers/users');
+// const upload = multer({ dest: "uploads/" });
 
-const midAuth = require('../midAuth/authentication');
+const authentication = require("../midAuth/authentication");
+const authorization = require("../midAuth/authorization");
+const upload = require("../midAuth/upload")
+
 
 const usersrouter = express.Router();
 
 usersrouter
-  .get('/users', midAuth, getList)
-  .get('/users/:id', midAuth, getdetails)
-  .post('/users', insert)
+  .get('/users', authentication, authorization, getList)
+  .get('/users/:id',authentication, getdetails)
+  .post('/users', upload, insert)
   .post('/login', login)
-  .put('/users/:id', midAuth, update)
-  .delete('/users/:id', midAuth, destroy);
+  .put('/users/:id', authentication, update)
+  .delete('/users/:id', authentication, destroy);
 
 module.exports = usersrouter;

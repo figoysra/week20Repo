@@ -1,4 +1,6 @@
 const db = require('../config/db');
+const jwt = require ('jsonwebtoken');
+const { JWT_SECRET } = require("../helpers/env");
 
 const usersmodel = {
   getAllData: () => new Promise((resolve, reject) => {
@@ -25,7 +27,15 @@ const usersmodel = {
       if (err) {
         reject(err);
       } else {
-        resolve(result);
+        const user = result[0]
+        // console.log(result)
+        const payload = {
+          id : user.id,
+          email : user.email
+        }
+        const token = jwt.sign(payload, JWT_SECRET)
+        // resolve(result);
+        resolve({result, token})
       }
     });
   }),
