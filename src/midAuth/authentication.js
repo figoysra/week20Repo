@@ -16,6 +16,7 @@ const authentication = (req,res,next) => {
     if(err){
       res.json(err)
     }else{
+      req.userId = decoded.id; 
       next()
     }
   } )

@@ -12,7 +12,7 @@ const upload = require("../midAuth/upload")
 const usersrouter = express.Router();
 
 usersrouter
-  .get('/users', authentication, authorization, getList)
+  .get('/users', [authentication, authorization], getList)
   .get('/users/:id',authentication, getdetails)
   .post('/users', upload, insert)
   .post('/login', login)

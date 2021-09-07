@@ -80,7 +80,8 @@ const users = {
   },
   insert: (req, res) => {
     try {
-      const { body, file } = req;
+      const { body } = req;
+    
       bcrypt.hash(body.password, 10, (err, hash) => {
         if (err) {
           failed(res, 401, err);
@@ -88,7 +89,7 @@ const users = {
           const data = {
             email: body.email,
             password: hash,
-            photo:  file.filename,
+            photo: body.photo,
             displayname: body.displayname,
             firstname: body.firstname,
             lastname: body.lastname,
