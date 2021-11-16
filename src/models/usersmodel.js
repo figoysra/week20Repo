@@ -1,6 +1,6 @@
+const jwt = require('jsonwebtoken');
 const db = require('../config/db');
-const jwt = require ('jsonwebtoken');
-const { JWT_SECRET } = require("../helpers/env");
+const { JWT_SECRET } = require('../helpers/env');
 
 const usersmodel = {
   getAllData: () => new Promise((resolve, reject) => {
@@ -26,22 +26,24 @@ const usersmodel = {
     db.query(`select * from tbl_users where email = '${email}'`, (err, result) => {
       if (err) {
         reject(err);
+      } else if (result.length <= 0) {
+        resolve(result);
       } else {
-        const user = result[0]
-        // console.log(result)
+        const user = result[0];
         const payload = {
-          id : user.id,
-          email : user.email
-        }
-        const token = jwt.sign(payload, JWT_SECRET)
-        // resolve(result);
-        resolve({result, token})
+          id: user.id,
+          email: user.email,
+        };
+        const token = jwt.sign(payload, JWT_SECRET);
+        resolve({ result, token });
       }
     });
   }),
   getdetails: (id) => new Promise((resolve, reject) => {
     db.query(`select * from tbl_users where id='${id}'`, (err, result) => {
       if (err) {
+        reject(err);
+      } else if (result <= 0) {
         reject(err);
       } else {
         resolve(result);
@@ -50,9 +52,9 @@ const usersmodel = {
   }),
   insert: (data) => new Promise((resolve, reject) => {
     const {
-      email, password, photo, displayname, firstname, lastname, date, gender, address, phone,
+      email, password, photo, displayname, phone, admin,
     } = data;
-    db.query(`INSERT INTO tbl_users (email,password,photo,displayname,firstname,lastname,date,gender,address,phone) value ('${email}', '${password}','${photo}','${displayname}', '${firstname}', '${lastname}','${date}','${gender}','${address}',${phone})`, (err, result) => {
+    db.query(`INSERT INTO tbl_users (email,password,photo,displayname,phone,admin) value ('${email}', '${password}','${photo}','${displayname}',"${phone}",${admin})`, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -61,11 +63,10 @@ const usersmodel = {
     });
   }),
   update: (id, data) => new Promise((resolve, reject) => {
-    // console.log(id);
     const {
-      email, password, photo, displayname, firstname, lastname, date, gender, address, phone,
+      email, photo, displayname, firstname, lastname, date, gender, address, phone, admin,
     } = data;
-    db.query(`UPDATE tbl_users SET email = '${email}',password = '${password}', photo='${photo}',displayname='${displayname}',firstname= '${firstname}',lastname= '${lastname}',date='${date}',gender='${gender}',address='${address}',phone=${phone} WHERE id='${id}'`, (err, result) => {
+    db.query(`UPDATE tbl_users SET email = '${email}', photo='${photo}',displayname='${displayname}',firstname= '${firstname}',lastname= '${lastname}',date='${date}',gender='${gender}',address='${address}',phone=${phone}, admin=${admin} WHERE id='${id}'`, (err, result) => {
       if (err) {
         reject(err);
       } else {

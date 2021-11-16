@@ -31,10 +31,11 @@ const category = {
     try {
       const { id } = req.params;
       categorymodel.getdetails(id).then((result) => {
-        success(res, result, 'success');
+        // console.log(result[0])
+        success(res, result[0], 'success');
         // res.json(result)
       }).catch((err) => {
-        failed(res, 404, err);
+        failed(res.status(404), 404, err);
         // console.log(err)
       });
     } catch (error) {

@@ -8,14 +8,14 @@ const response = {
     };
     res.json(success);
   },
-  successLogin : (res, result, token) =>{
+  successLogin: (res, result, token) => {
     const successLogin = {
-      success : true,
-      data : result,
-      code : 200,
-      token : token
-    }  
-    res.json(successLogin)
+      success: true,
+      data: result,
+      code: 200,
+      token,
+    };
+    res.json(successLogin);
   },
   failed: (res, code, err) => {
     if (code === 500) {

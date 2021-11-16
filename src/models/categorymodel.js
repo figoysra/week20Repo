@@ -21,10 +21,17 @@ const categorymodel = {
   }),
   getdetails: (id) => new Promise((resolve, reject) => {
     db.query(`select * from tbl_category where id='${id}'`, (err, result) => {
+      
       if (err) {
         reject(err);
       } else {
-        resolve(result);
+        if(result.length <= 0){
+          reject(err)
+        }else{
+          console.log(result)
+          resolve(result)
+        }
+        // resolve(result);
       }
     });
   }),
@@ -45,6 +52,7 @@ const categorymodel = {
         reject(err);
       } else {
         resolve(result);
+        // console.log(result)
       }
     });
   }),

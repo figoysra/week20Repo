@@ -11,7 +11,7 @@ const productsmodel = {
         } else {
           resolve(result);
         }
-      }
+      },
     );
   }),
   getList: (search, field, typeSort, limit, offset) => new Promise((resolve, reject) => {
@@ -30,13 +30,17 @@ const productsmodel = {
             from tbl_products as pro left join tbl_category as cat on pro.categoryID=cat.id where pro.id='${id}'`, (err, result) => {
       if (err) {
         reject(err);
+      } else if (result.length <= 0) {
+        reject(err);
       } else {
         resolve(result);
       }
     });
   }),
-  insert: (body) => new Promise((resolve, reject) => {
-    const { productName, photo, price, description, categoryID } = body;
+  insert: (data) => new Promise((resolve, reject) => {
+    const {
+      productName, photo, price, description, categoryID,
+    } = data;
     db.query(
       `INSERT INTO tbl_products (productName,photo,price, description,categoryID) value ('${productName}','${photo}','${price}','${description}',${categoryID})`,
       (err, result) => {
@@ -45,12 +49,12 @@ const productsmodel = {
         } else {
           resolve(result);
         }
-      }
+      },
     );
   }),
-  update: (id, body) => new Promise((resolve, reject) => {
+  update: (id, body, photo) => new Promise((resolve, reject) => {
     const {
-      productName, photo, price, description, categoryID,
+      productName, price, description, categoryID,
     } = body;
     db.query(`UPDATE tbl_products SET productName ='${productName}',photo='${photo}',price='${price}', description='${description}', categoryID= ${categoryID} where id = ${id}`, (err, result) => {
       if (err) {
