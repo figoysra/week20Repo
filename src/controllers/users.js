@@ -227,8 +227,8 @@ const users = {
         })
         // eslint-disable-next-line no-unused-vars
         .catch((error) => {
+          console.log(error);
           failed(res.status(404), 404, 'Wrong Emails');
-          // console.log(error)
         });
     } catch (error) {
       failed(res.status(401), 401, error);

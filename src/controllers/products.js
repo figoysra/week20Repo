@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 const _ = require('lodash');
 const redis = require('redis');
 const fs = require('fs');
@@ -18,7 +19,7 @@ const product = {
       const search = query.search === undefined ? '' : query.search;
       const field = query.field === undefined ? 'pro.id' : query.field;
       const typeSort = query.sort === undefined ? 'ASC' : query.sort;
-      const limit = query.limit === undefined ? 10 : query.limit;
+      const limit = query.limit === undefined ? 16 : query.limit;
       const page = query.page === undefined ? 1 : query.page;
       const offset = page === 1 ? 0 : (page - 1) * limit;
       client.get('products', (err, result) => {
@@ -32,9 +33,10 @@ const product = {
               const response = {
                 data,
                 totalPage: Math.ceil(allData.length / limit),
+                totalData: allData.length,
                 search,
-                limit,
-                page,
+                limit: parseInt(limit),
+                page: parseInt(page),
               };
               redisAction.set('products', JSON.stringify(allData));
               success(res, response, 'get all data success');
@@ -43,6 +45,7 @@ const product = {
               failed(res, 500, error);
             });
         } else {
+          // client.del('products');
           const response = JSON.parse(result);
           // eslint-disable-next-line max-len
           const dataFilter = _.filter(response, (e) => e.productName.toLowerCase().includes(search.toLowerCase()));
@@ -50,6 +53,10 @@ const product = {
           const output = {
             data: paginated,
             totalPage: Math.ceil(response.length / limit),
+            totalData: response.length,
+            search: dataFilter,
+            limit: parseInt(limit),
+            page: parseInt(page),
           };
           success(res, output, 'success');
         }
