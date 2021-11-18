@@ -231,6 +231,7 @@ const users = {
           failed(res.status(404), 404, 'Wrong Emails');
         });
     } catch (error) {
+      console.log(error);
       failed(res.status(401), 401, error);
     }
   },
