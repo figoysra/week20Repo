@@ -214,16 +214,20 @@ const users = {
       usersmodel
         .login(body)
         .then((data) => {
-          const hash = data.result[0].password;
-          bcrypt.compare(body.password, hash, (error, checkpass) => {
-            if (error) {
-              failed(res.status(401), 401, error);
-            } else if (checkpass === true) {
-              successLogin(res, data.result[0], data.token);
-            } else {
-              failed(res.status(404), 404, 'Wrong Password');
-            }
-          });
+          if (data.result.length <= 0) {
+            failed(res.status(404), 404, 'Wrong Emails');
+          } else {
+            const hash = data.result[0].password;
+            bcrypt.compare(body.password, hash, (error, checkpass) => {
+              if (error) {
+                failed(res.status(401), 401, error);
+              } else if (checkpass === true) {
+                successLogin(res, data.result[0], data.token);
+              } else {
+                failed(res.status(404), 404, 'Wrong Password');
+              }
+            });
+          }
         })
         // eslint-disable-next-line no-unused-vars
         .catch((error) => {
