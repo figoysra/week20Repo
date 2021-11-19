@@ -214,7 +214,8 @@ const users = {
       usersmodel
         .login(body)
         .then((data) => {
-          if (data.result.length <= 0) {
+          // console.log(data)
+          if (data.length <= 0) {
             failed(res.status(404), 404, 'Wrong Emails');
           } else {
             const hash = data.result[0].password;
